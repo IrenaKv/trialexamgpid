@@ -5,6 +5,7 @@ import Homepage from "./Homepage";
 import PatientDatabase from "./PatientDatabase";
 import DoctorSchedule from "./DoctorSchedule";
 import PatientSignup from "./PatientSignup";
+import PatientDetails from "./PatientDetails";
 
 function App() {
   return (
@@ -18,6 +19,11 @@ function App() {
         <Route exact path="/" component={Homepage} />
         <Route exact path="/doctorschedule" component={DoctorSchedule} />
         <Route exact path="/patientsignup" component={PatientSignup} />
+        <Route
+          exact
+          path="/patientdetails/:patientid"
+          component={PatientDetails}
+        />
         <Route exact path="/patientdatabase" component={PatientDatabase} />
       </Switch>
     </div>

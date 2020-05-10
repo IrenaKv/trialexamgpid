@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function PatientDatabase() {
   const [patientList, set_patientList] = useState([]);
   const [filterpatientList, set_filteredPatientList] = useState([]); // this is like toolbox, patientList is a data holder containing all the data and set_patient list is a "verb/action" what I will want to do and useState is a "buddle" of possiblities/different actions that can be done like a "toolbox"
+  const [doctorList, set_doctorList] = useState([]);
 
   useEffect(() => {
     //by this I am setting the function to run whenever I direct it to
@@ -18,6 +20,17 @@ export default function PatientDatabase() {
     // const fetchPatients = async () => {} ----> same as below
     //async function fetchPatients() {} ------> this is the same as above
     fetchPatients();
+  }, []);
+
+  useEffect(() => {
+    // ---> setting up API to fetch doctors' data
+    async function fetchDoctors() {
+      const response = await axios.get(
+        "https://my-json-server.typicode.com/Codaisseur/patient-doctor-data/doctors"
+      );
+      set_doctorList(response.data);
+    }
+    fetchDoctors();
   }, []);
 
   function filteredPatientList(e) {
@@ -47,15 +60,19 @@ export default function PatientDatabase() {
       </p>
       {filterpatientList.map((patient) => {
         //previously was patience list which we changed to filterpatientList
+
+        // below unique key is being added, map needs unique key    <div key={patient.id}>
         return (
-          <div>
+          <div key={patient.id}>
             <h5 className="PatientDatabase">
               <p>
                 This is the full name: {patient.firstName} {patient.lastName}
               </p>
               <p>This is the patient id: {patient.id}</p>
               <p>Date of Birth: {patient.dateOfBirth}</p>
-              <button>To do: link with patient details</button>
+              <Link to={`/patientdetails/${patient.id}`}>
+                <button>patient details</button>
+              </Link>
             </h5>
           </div>
         );
